@@ -19,6 +19,5 @@ func Init() {
 // Free performs cleanup functions for underlying dependencies.
 // Deferring a call to Free is recommended after an Init call.
 func Free() {
-	sdl.Delay(1000)
 	sdl.Quit()
 }

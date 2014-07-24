@@ -18,10 +18,6 @@ func Image(filePath string) *image {
 	return &displayImage
 }
 
-func (img *image) Free() {
-	img.Free()
-}
-
 func (img *image) Surface() *sdl.Surface {
 	surface := sdl.Surface(*img)
 	return &surface
