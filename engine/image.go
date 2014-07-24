@@ -13,7 +13,8 @@ func Image(filePath string) *image {
 		panic("Image could not be loaded: " + filePath)
 	}
 
-	displayImage := image(*sdl.DisplayFormat(loadedImage))
+	displayImage := image(*sdl.DisplayFormatAlpha(loadedImage))
+
 	loadedImage.Free()
 	return &displayImage
 }
