@@ -4,7 +4,10 @@ import (
 	"github.com/banthar/Go-SDL/sdl"
 )
 
-type image sdl.Surface
+type image struct {
+	surface  *sdl.Surface
+	Position Pos
+}
 
 // Image constructs an image.
 func Image(filePath string) *image {
@@ -13,19 +16,19 @@ func Image(filePath string) *image {
 		panic("Image could not be loaded: " + filePath)
 	}
 
-	displayImage := image(*sdl.DisplayFormatAlpha(loadedImage))
+	displayImage := *sdl.DisplayFormatAlpha(loadedImage)
+	img := image{surface: &displayImage}
 
 	loadedImage.Free()
-	return &displayImage
+	return &img
 }
 
 func (img *image) Surface() *sdl.Surface {
-	surface := sdl.Surface(*img)
-	return &surface
+	return img.surface
 }
 
 // Implement paintable
-func (img *image) PaintTo(pos Pos, dest paintable) {
-	posRect := pos.asRect()
+func (img *image) PaintTo(dest paintable) {
+	posRect := img.Position.asRect()
 	dest.Surface().Blit(&posRect, img.Surface(), nil)
 }

@@ -11,10 +11,24 @@ func main() {
 	disp := engine.Display(engine.Size{W: 640, H: 480}, "Hello, World!")
 
 	bg := engine.Image("bg.jpg")
-	bg.PaintTo(engine.Pos{X: 0, Y: 0}, disp)
+	bg.Position = engine.Pos{X: 0, Y: 0}
+	bg.PaintTo(disp)
 
-	icon := engine.Image("email.png")
-	icon.PaintTo(engine.Pos{X: 100, Y: 100}, disp)
+	icon := engine.Sprite("email.png", engine.Size{W: 25, H: 25})
+	icon.Position = engine.Pos{X: 0, Y: 0}
+	icon.PaintTo(disp)
+
+	icon.NextFrame()
+	icon.Position = engine.Pos{X: 50, Y: 0}
+	icon.PaintTo(disp)
+
+	icon.NextFrame()
+	icon.Position = engine.Pos{X: 0, Y: 50}
+	icon.PaintTo(disp)
+
+	icon.NextFrame()
+	icon.Position = engine.Pos{X: 50, Y: 50}
+	icon.PaintTo(disp)
 
 	disp.Refresh()
 	engine.EnterEventLoop()

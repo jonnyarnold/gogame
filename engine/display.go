@@ -22,7 +22,7 @@ func (disp *display) Refresh() {
 }
 
 func (disp *display) initSurface() {
-	disp.screen = sdl.SetVideoMode(disp.size.W, disp.size.H, 32, sdl.SWSURFACE)
+	disp.screen = sdl.SetVideoMode(int(disp.size.W), int(disp.size.H), 32, sdl.SWSURFACE)
 	if disp.screen == nil {
 		panic("sdl error")
 	}
@@ -33,7 +33,6 @@ func (disp *display) Surface() *sdl.Surface {
 	return disp.screen
 }
 
-func (disp *display) PaintTo(pos Pos, dest paintable) {
-	posRect := pos.asRect()
-	dest.Surface().Blit(&posRect, disp.Surface(), nil)
+func (disp *display) PaintTo(dest paintable) {
+	dest.Surface().Blit(nil, disp.Surface(), nil)
 }

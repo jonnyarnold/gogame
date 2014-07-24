@@ -6,5 +6,5 @@ import (
 
 type paintable interface {
 	Surface() *sdl.Surface
-	PaintTo(Pos, paintable)
+	PaintTo(paintable)
 }
