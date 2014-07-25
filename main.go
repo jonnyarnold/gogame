@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/banthar/Go-SDL/sdl"
 	"jonnyarnold/game/engine"
 )
 
@@ -12,35 +13,69 @@ func main() {
 	// Setup
 	disp := engine.Display(engine.Size{W: 640, H: 480}, "Hello, World!")
 	bg := engine.Image("bg.jpg")
-	icon := engine.Sprite("email.png", engine.Size{W: 25, H: 25})
+	bg.SetPosition(engine.Pos{X: 0, Y: 0})
+	disp.Objects = append(disp.Objects, bg)
 
-	font := engine.LoadFont("ubuntu-font-family/Ubuntu-R.ttf", 16)
-	//defer font.Close()
+	font := engine.LoadFont("ubuntu-font-family/Ubuntu-R.ttf", 32)
+	// TODO: defer font.Close()
 
-	message := font.Text("Hello World!", engine.Color{R: 255, G: 255, B: 255})
+	u := font.Text("Up!", engine.Color{R: 255, G: 255, B: 255})
+	u.SetCenterPos(engine.Pos{X: 320, Y: 140})
+	u.SetVisible(false)
+	disp.Objects = append(disp.Objects, u)
 
-	// Painting
-	bg.Position = engine.Pos{X: 0, Y: 0}
-	bg.PaintTo(disp)
+	d := font.Text("Down!", engine.Color{R: 255, G: 255, B: 255})
+	d.SetCenterPos(engine.Pos{X: 320, Y: 340})
+	d.SetVisible(false)
+	disp.Objects = append(disp.Objects, d)
 
-	icon.Position = engine.Pos{X: 0, Y: 0}
-	icon.PaintTo(disp)
+	l := font.Text("Left!", engine.Color{R: 255, G: 255, B: 255})
+	l.SetCenterPos(engine.Pos{X: 220, Y: 240})
+	l.SetVisible(false)
+	disp.Objects = append(disp.Objects, l)
 
-	icon.NextFrame()
-	icon.Position = engine.Pos{X: 50, Y: 0}
-	icon.PaintTo(disp)
+	r := font.Text("Right!", engine.Color{R: 255, G: 255, B: 255})
+	r.SetCenterPos(engine.Pos{X: 420, Y: 240})
+	r.SetVisible(false)
+	disp.Objects = append(disp.Objects, r)
 
-	icon.NextFrame()
-	icon.Position = engine.Pos{X: 0, Y: 50}
-	icon.PaintTo(disp)
+	keys := engine.KeyHandler{
 
-	icon.NextFrame()
-	icon.Position = engine.Pos{X: 50, Y: 50}
-	icon.PaintTo(disp)
+		RespondsTo: func(key engine.KeyCode) bool {
+			return (key == sdl.K_UP ||
+				key == sdl.K_DOWN ||
+				key == sdl.K_LEFT ||
+				key == sdl.K_RIGHT)
+		},
 
-	message.SetCenterPos(engine.Pos{X: 37, Y: 37})
-	message.PaintTo(disp)
+		WhenKeyDown: func(key engine.KeyCode) {
+			switch {
+			case key == sdl.K_UP:
+				u.SetVisible(true)
+			case key == sdl.K_DOWN:
+				d.SetVisible(true)
+			case key == sdl.K_LEFT:
+				l.SetVisible(true)
+			case key == sdl.K_RIGHT:
+				r.SetVisible(true)
+			}
+		},
 
-	disp.Refresh()
-	engine.EnterEventLoop()
+		WhenKeyUp: func(key engine.KeyCode) {
+			switch {
+			case key == sdl.K_UP:
+				u.SetVisible(false)
+			case key == sdl.K_DOWN:
+				d.SetVisible(false)
+			case key == sdl.K_LEFT:
+				l.SetVisible(false)
+			case key == sdl.K_RIGHT:
+				r.SetVisible(false)
+			}
+		},
+	}
+
+	engine.KeyHandlers = append(engine.KeyHandlers, &keys)
+
+	engine.EnterGameLoop(disp)
 }

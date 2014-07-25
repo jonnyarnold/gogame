@@ -24,3 +24,17 @@ func Free() {
 	ttf.Quit()
 	sdl.Quit()
 }
+
+type gameState struct {
+	exiting bool
+}
+
+// EnterGameLoop passes control to the game engine.
+func EnterGameLoop(disp *display) {
+	state := gameState{}
+
+	for !state.exiting {
+		HandleEvents(&state)
+		(*disp).Refresh()
+	}
+}
