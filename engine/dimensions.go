@@ -1,3 +1,9 @@
+/*
+Structures to help deal with dimensions.
+SDL provides a generic Rect; this splits
+the Rect into its Size and Pos components
+*/
+
 package engine
 
 import (
@@ -22,4 +28,10 @@ type Pos struct {
 
 func (pos Pos) asRect() sdl.Rect {
 	return sdl.Rect{X: int16(pos.X), Y: int16(pos.Y)}
+}
+
+// PosSizeRect takes a Pos and Size object
+// and returns an SDL Rect
+func PosSizeRect(pos Pos, size Size) sdl.Rect {
+	return sdl.Rect{X: int16(pos.X), Y: int16(pos.Y), W: uint16(size.W), H: uint16(size.H)}
 }

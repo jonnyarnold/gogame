@@ -32,3 +32,10 @@ func (img *image) PaintTo(dest paintable) {
 	posRect := img.Position.asRect()
 	dest.Surface().Blit(&posRect, img.Surface(), nil)
 }
+
+// Sets the position of the image such that
+// the center of the image is at the given position.
+func (img *image) SetCenterPos(centerPos Pos) {
+	imageDimensions := Size{W: uint32(img.surface.W), H: uint32(img.surface.H)}
+	img.Position = Pos{X: centerPos.X - int32(float64(imageDimensions.W)/2), Y: centerPos.Y - int32(float64(imageDimensions.H)/2)}
+}
