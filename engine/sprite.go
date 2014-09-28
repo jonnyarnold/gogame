@@ -5,11 +5,13 @@ import (
 )
 
 type sprite struct {
+	*image
 	sheet            *sdl.Surface
 	FrameSize        Size
 	currentFrameRect sdl.Rect
 	position         Pos
 	redraw           bool
+	visible          bool
 }
 
 // Sprite constructs a sprite.
@@ -58,10 +60,21 @@ func (img *sprite) SetPosition(pos Pos) {
 	img.redraw = true
 }
 
+func (img *image) Visible() bool {
+	return img.visible
+}
+
+func (img *image) SetVisible(visible bool) {
+	img.visible = visible
+	img.redraw = true
+}
+
 // Implement paintSrc
 func (s *sprite) PaintTo(dest paintDest) {
-	posRect := s.position.asRect()
-	dest.Surface().Blit(&posRect, s.sheet, &s.currentFrameRect)
+	if img.visible {
+		posRect := s.position.asRect()
+		dest.Surface().Blit(&posRect, s.sheet, &s.currentFrameRect)
+	}
 }
 
 func (img *sprite) RequiresRedraw() bool {

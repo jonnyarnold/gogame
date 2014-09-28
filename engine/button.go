@@ -1,7 +1,7 @@
 package engine
 
 type button struct {
-	image          *image
+	*image
 	onClickHandler *MouseHandler
 }
 
@@ -11,31 +11,8 @@ func Button(buttonImage *image) *button {
 	return &b
 }
 
-func (btn *button) Position() Pos {
-	return btn.image.Position()
-}
-
-func (btn *button) SetPosition(pos Pos) {
-	btn.image.SetPosition(pos)
-}
-
-func (btn *button) Visible() bool {
-	return btn.image.Visible()
-}
-
-func (btn *button) SetVisible(visible bool) {
-	btn.image.SetVisible(visible)
-}
-
-// Implement paintSrc
-func (btn *button) PaintTo(dest paintDest) {
-	btn.image.PaintTo(dest)
-}
-
-func (btn *button) RequiresRedraw() bool {
-	return btn.image.redraw
-}
-
+// OnClick sets a callback activated when the button
+// is clicked
 func (btn *button) OnClick(callback func()) {
 	handler := MouseHandler{
 		RespondsTo: func(pos Pos, buttons MouseButtons) bool {
