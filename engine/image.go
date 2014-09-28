@@ -25,18 +25,6 @@ func Image(filePath string) *image {
 	return &img
 }
 
-func (img *image) Surface() *sdl.Surface {
-	return img.surface
-}
-
-// Implement paintable
-func (img *image) PaintTo(dest paintable) {
-	if img.visible {
-		posRect := img.position.asRect()
-		dest.Surface().Blit(&posRect, img.Surface(), nil)
-	}
-}
-
 func (img *image) Position() Pos {
 	return img.position
 }
@@ -61,6 +49,14 @@ func (img *image) SetCenterPos(centerPos Pos) {
 	imageDimensions := Size{W: uint32(img.surface.W), H: uint32(img.surface.H)}
 	img.position = Pos{X: centerPos.X - int32(float64(imageDimensions.W)/2), Y: centerPos.Y - int32(float64(imageDimensions.H)/2)}
 	img.redraw = true
+}
+
+// Implement paintSrc
+func (img *image) PaintTo(dest paintDest) {
+	if img.visible {
+		posRect := img.position.asRect()
+		dest.Surface().Blit(&posRect, img.surface, nil)
+	}
 }
 
 func (img *image) RequiresRedraw() bool {

@@ -47,13 +47,8 @@ func (s *sprite) NextFrame() {
 	s.currentFrameRect = sdl.Rect{X: int16(framePos.X), Y: int16(framePos.Y), W: uint16(s.FrameSize.W), H: uint16(s.FrameSize.H)}
 }
 
-// Sprite returns nil. TODO
-func (s *sprite) Surface() *sdl.Surface {
-	return nil
-}
-
-// Implement paintable
-func (s *sprite) PaintTo(dest paintable) {
+// Implement paintSrc
+func (s *sprite) PaintTo(dest paintDest) {
 	posRect := s.Position.asRect()
 	dest.Surface().Blit(&posRect, s.sheet, &s.currentFrameRect)
 }

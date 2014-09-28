@@ -35,15 +35,7 @@ func (disp *display) initSurface() {
 	}
 }
 
-// Implement paintable
+// Implement paintDest
 func (disp *display) Surface() *sdl.Surface {
 	return disp.screen
-}
-
-func (disp *display) PaintTo(dest paintable) {
-	dest.Surface().Blit(nil, disp.Surface(), nil)
-}
-
-func (disp *display) RequiresRedraw() bool {
-	return disp.Objects.RequiresRedraw()
 }
