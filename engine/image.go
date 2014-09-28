@@ -34,6 +34,14 @@ func (img *image) SetPosition(pos Pos) {
 	img.redraw = true
 }
 
+func (img *image) Size() Size {
+	return Size{W: uint32(img.surface.W), H: uint32(img.surface.H)}
+}
+
+func (img *image) Rect() Rect {
+	return PosSizeRect(img.position, img.Size())
+}
+
 func (img *image) Visible() bool {
 	return img.visible
 }

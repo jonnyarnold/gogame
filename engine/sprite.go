@@ -46,6 +46,7 @@ func (s *sprite) NextFrame() {
 	}
 
 	s.currentFrameRect = sdl.Rect{X: int16(framePos.X), Y: int16(framePos.Y), W: uint16(s.FrameSize.W), H: uint16(s.FrameSize.H)}
+	s.redraw = true
 }
 
 func (img *sprite) Position() Pos {

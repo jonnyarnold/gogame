@@ -16,15 +16,15 @@ func main() {
 	font := engine.LoadFont("ubuntu-font-family/Ubuntu-R.ttf", 32)
 	// TODO: defer font.Close()
 
-	bg := engine.Sprite("bg.jpg", engine.Size{W: 640, H: 480})
+	bg := engine.Sprite("bg_sprite.jpg", engine.Size{W: 640, H: 480})
 	bg.SetPosition(engine.Pos{X: 0, Y: 0})
 	disp.Objects = append(disp.Objects, bg)
 
 	bgChangeBtnText := font.Text("Change BG", engine.Color{R: 0, G: 0, B: 0})
 	bgChangeBtn := engine.Button(bgChangeBtnText)
-	bgChangeBtn.OnClick = func() {
+	bgChangeBtn.OnClick(func() {
 		bg.NextFrame()
-	}
+	})
 	bgChangeBtn.SetPosition(engine.Pos{X: 0, Y: 0})
 	disp.Objects = append(disp.Objects, bgChangeBtn)
 
@@ -87,8 +87,4 @@ func main() {
 	engine.KeyHandlers = append(engine.KeyHandlers, &keys)
 
 	engine.EnterGameLoop(disp)
-}
-
-func toggleBg() {
-
 }
