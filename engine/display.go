@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"github.com/banthar/Go-SDL/sdl"
+	"github.com/scottferg/Go-SDL2/sdl"
 )
 
 type display struct {
