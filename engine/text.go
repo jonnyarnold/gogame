@@ -28,6 +28,6 @@ func LoadFont(fontName string, fontSize int) *font {
 func (f *font) Text(text string, color Color) *image {
 	unpackedFont := ttf.Font(*f)
 	textSurface := ttf.RenderUTF8_Solid(&unpackedFont, text, sdl.Color(color))
-	img := image{surface: textSurface}
+	img := image{surface: textSurface, visible: true, redraw: true}
 	return &img
 }

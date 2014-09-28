@@ -8,7 +8,8 @@ type sprite struct {
 	sheet            *sdl.Surface
 	FrameSize        Size
 	currentFrameRect sdl.Rect
-	Position         Pos
+	position         Pos
+	redraw           bool
 }
 
 // Sprite constructs a sprite.
@@ -20,7 +21,7 @@ func Sprite(sheetPath string, frameSize Size) *sprite {
 	}
 
 	sheet := sdl.DisplayFormatAlpha(loadedSheet)
-	s := sprite{sheet: sheet, FrameSize: frameSize, currentFrameRect: frameSize.asRect()}
+	s := sprite{sheet: sheet, FrameSize: frameSize, currentFrameRect: frameSize.asRect(), redraw: true}
 
 	loadedSheet.Free()
 	return &s
@@ -47,8 +48,21 @@ func (s *sprite) NextFrame() {
 	s.currentFrameRect = sdl.Rect{X: int16(framePos.X), Y: int16(framePos.Y), W: uint16(s.FrameSize.W), H: uint16(s.FrameSize.H)}
 }
 
+func (img *sprite) Position() Pos {
+	return img.position
+}
+
+func (img *sprite) SetPosition(pos Pos) {
+	img.position = pos
+	img.redraw = true
+}
+
 // Implement paintSrc
 func (s *sprite) PaintTo(dest paintDest) {
-	posRect := s.Position.asRect()
+	posRect := s.position.asRect()
 	dest.Surface().Blit(&posRect, s.sheet, &s.currentFrameRect)
+}
+
+func (img *sprite) RequiresRedraw() bool {
+	return img.redraw
 }

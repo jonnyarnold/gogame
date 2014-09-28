@@ -12,12 +12,21 @@ func main() {
 
 	// Setup
 	disp := engine.Display(engine.Size{W: 640, H: 480}, "Hello, World!")
-	bg := engine.Image("bg.jpg")
-	bg.SetPosition(engine.Pos{X: 0, Y: 0})
-	disp.Objects = append(disp.Objects, bg)
 
 	font := engine.LoadFont("ubuntu-font-family/Ubuntu-R.ttf", 32)
 	// TODO: defer font.Close()
+
+	bg := engine.Sprite("bg.jpg", engine.Size{W: 640, H: 480})
+	bg.SetPosition(engine.Pos{X: 0, Y: 0})
+	disp.Objects = append(disp.Objects, bg)
+
+	bgChangeBtnText := font.Text("Change BG", engine.Color{R: 0, G: 0, B: 0})
+	bgChangeBtn := engine.Button(bgChangeBtnText)
+	bgChangeBtn.OnClick = func() {
+		bg.NextFrame()
+	}
+	bgChangeBtn.SetPosition(engine.Pos{X: 0, Y: 0})
+	disp.Objects = append(disp.Objects, bgChangeBtn)
 
 	u := font.Text("Up!", engine.Color{R: 255, G: 255, B: 255})
 	u.SetCenterPos(engine.Pos{X: 320, Y: 140})
@@ -78,4 +87,8 @@ func main() {
 	engine.KeyHandlers = append(engine.KeyHandlers, &keys)
 
 	engine.EnterGameLoop(disp)
+}
+
+func toggleBg() {
+
 }
