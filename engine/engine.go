@@ -5,6 +5,7 @@ A game engine using SDL.
 package engine
 
 import (
+	"github.com/banthar/Go-SDL/mixer"
 	"github.com/banthar/Go-SDL/sdl"
 	"github.com/banthar/Go-SDL/ttf"
 	"runtime"
@@ -16,6 +17,7 @@ func Init() {
 	runtime.LockOSThread() // SDL calls must be on a single thread
 	sdl.Init(sdl.INIT_EVERYTHING)
 	ttf.Init()
+	mixer.OpenAudio(22050, mixer.DEFAULT_FORMAT, 2, 4096)
 }
 
 // Free performs cleanup functions for underlying dependencies.
@@ -23,6 +25,7 @@ func Init() {
 func Free() {
 	ttf.Quit()
 	sdl.Quit()
+	mixer.CloseAudio()
 }
 
 type gameState struct {

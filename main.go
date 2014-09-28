@@ -9,12 +9,15 @@ func main() {
 	engine.Init()
 	defer engine.Free()
 	engine.FontPath = "/usr/share/fonts/truetype"
+	engine.SoundPath = "/data/jonny/Downloads"
 
 	// Setup
 	disp := engine.Display(engine.Size{W: 640, H: 480}, "Hello, World!")
 
 	font := engine.LoadFont("ubuntu-font-family/Ubuntu-R.ttf", 32)
 	// TODO: defer font.Close()
+
+	music := engine.LoadSound("Bonkers.mp3")
 
 	bg := engine.Sprite("bg_sprite.jpg", engine.Size{W: 640, H: 480})
 	bg.SetPosition(engine.Pos{X: 0, Y: 0})
@@ -54,7 +57,8 @@ func main() {
 			return (key == sdl.K_UP ||
 				key == sdl.K_DOWN ||
 				key == sdl.K_LEFT ||
-				key == sdl.K_RIGHT)
+				key == sdl.K_RIGHT ||
+				key == sdl.K_q)
 		},
 
 		WhenKeyDown: func(key engine.KeyCode) {
@@ -67,6 +71,8 @@ func main() {
 				l.SetVisible(true)
 			case key == sdl.K_RIGHT:
 				r.SetVisible(true)
+			case key == sdl.K_q:
+				music.Play()
 			}
 		},
 
@@ -80,6 +86,8 @@ func main() {
 				l.SetVisible(false)
 			case key == sdl.K_RIGHT:
 				r.SetVisible(false)
+			case key == sdl.K_q:
+				engine.PauseAllMusic()
 			}
 		},
 	}
