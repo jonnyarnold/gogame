@@ -32,12 +32,23 @@ type gameState struct {
 	exiting bool
 }
 
+var FramesPerSecond = 60
+
 // EnterGameLoop passes control to the game engine.
 func EnterGameLoop(disp *display) {
 	state := gameState{}
 
+	fpsTimer := Timer()
+	frameTime := uint32(1000 / FramesPerSecond)
+	fpsTimer.Start()
+
 	for !state.exiting {
 		HandleEvents(&state)
-		(*disp).Refresh()
+
+		if fpsTimer.GetTicks() > frameTime {
+			(*disp).Refresh()
+			fpsTimer.Reset()
+		}
+
 	}
 }

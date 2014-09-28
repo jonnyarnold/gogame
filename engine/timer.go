@@ -26,6 +26,10 @@ func (t *timer) Stop() {
 	t.running = false
 }
 
+func (t *timer) Reset() {
+	t.startTicks = sdl.GetTicks()
+}
+
 func (t *timer) GetTicks() uint32 {
 	if t.running {
 		return sdl.GetTicks() - t.startTicks
