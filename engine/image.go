@@ -1,11 +1,16 @@
+/*
+Provides an Image struct that holds a static image.
+*/
+
 package engine
 
 import (
-	"github.com/banthar/Go-SDL/sdl"
+	"github.com/scottferg/Go-SDL2/sdl"
 )
 
 type image struct {
-	surface  *sdl.Surface
+	texture  *sdl.Texture
+	size     Size
 	position Pos
 	redraw   bool
 	visible  bool
@@ -18,25 +23,24 @@ func Image(filePath string) *image {
 		panic("Image could not be loaded: " + filePath)
 	}
 
-	displayImage := *sdl.DisplayFormatAlpha(loadedImage)
-	img := image{surface: &displayImage, visible: true, redraw: true}
-
-	loadedImage.Free()
+	img := image{visible: true, redraw: true, size: Size{W: uint32(loadedImage.W), H: uint32(loadedImage.H)}}
+	img.texture = sdl.CreateTextureFromSurface(nil, loadedImage)
 	return &img
 }
 
-func (img *image) Surface() *sdl.Surface {
-	return img.surface
-}
-
 // Implement paintable
-func (img *image) PaintTo(dest paintable) {
+func (img *image) PaintTo(renderer *sdl.Renderer) {
 	if img.visible {
 		posRect := img.position.asRect()
-		dest.Surface().Blit(&posRect, img.Surface(), nil)
+		renderer.Copy(img.texture, nil, &posRect)
 	}
 }
 
+func (img *image) RequiresRedraw() bool {
+	return img.redraw
+}
+
+// Position changes
 func (img *image) Position() Pos {
 	return img.position
 }
@@ -58,11 +62,6 @@ func (img *image) SetVisible(visible bool) {
 // Sets the position of the image such that
 // the center of the image is at the given position.
 func (img *image) SetCenterPos(centerPos Pos) {
-	imageDimensions := Size{W: uint32(img.surface.W), H: uint32(img.surface.H)}
-	img.position = Pos{X: centerPos.X - int32(float64(imageDimensions.W)/2), Y: centerPos.Y - int32(float64(imageDimensions.H)/2)}
+	img.position = Pos{X: centerPos.X - int32(float64(img.size.W)/2), Y: centerPos.Y - int32(float64(img.size.H)/2)}
 	img.redraw = true
-}
-
-func (img *image) RequiresRedraw() bool {
-	return img.redraw
 }

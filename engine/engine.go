@@ -5,8 +5,8 @@ A game engine using SDL.
 package engine
 
 import (
-	"github.com/banthar/Go-SDL/sdl"
-	"github.com/banthar/Go-SDL/ttf"
+	"github.com/scottferg/Go-SDL2/sdl"
+	"github.com/scottferg/Go-SDL2/ttf"
 	"runtime"
 )
 
@@ -30,11 +30,11 @@ type gameState struct {
 }
 
 // EnterGameLoop passes control to the game engine.
-func EnterGameLoop(disp *display) {
+func EnterGameLoop(win *window) {
 	state := gameState{}
 
 	for !state.exiting {
 		HandleEvents(&state)
-		(*disp).Refresh()
+		(*win).Refresh()
 	}
 }

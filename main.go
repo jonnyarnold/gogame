@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/banthar/Go-SDL/sdl"
+	"github.com/scottferg/Go-SDL2/sdl"
 	"jonnyarnold/game/engine"
 )
 
@@ -11,7 +11,7 @@ func main() {
 	engine.FontPath = "/usr/share/fonts/truetype"
 
 	// Setup
-	disp := engine.Display(engine.Size{W: 640, H: 480}, "Hello, World!")
+	disp := engine.Window(engine.Size{W: 640, H: 480}, "Hello, World!")
 	bg := engine.Image("bg.jpg")
 	bg.SetPosition(engine.Pos{X: 0, Y: 0})
 	disp.Objects = append(disp.Objects, bg)

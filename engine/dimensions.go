@@ -1,13 +1,15 @@
 /*
 Structures to help deal with dimensions.
 SDL provides a generic Rect; this splits
-the Rect into its Size and Pos components
+the Rect into its Size and Pos components.
+Utility methods are provided to ensure the
+Rect values are the right type.
 */
 
 package engine
 
 import (
-	"github.com/banthar/Go-SDL/sdl"
+	"github.com/scottferg/Go-SDL2/sdl"
 )
 
 // Size denotes the dimensions (not position) of a rectangle

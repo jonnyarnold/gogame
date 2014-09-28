@@ -1,8 +1,8 @@
 package engine
 
 import (
-	"github.com/banthar/Go-SDL/sdl"
-	"github.com/banthar/Go-SDL/ttf"
+	"github.com/scottferg/Go-SDL2/sdl"
+	"github.com/scottferg/Go-SDL2/ttf"
 	"path"
 )
 
